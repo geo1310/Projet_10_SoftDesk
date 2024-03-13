@@ -29,18 +29,19 @@ class CustomUser(AbstractUser):
     can_be_contacted = models.BooleanField(default=True)
     can_data_be_shared = models.BooleanField(default=True)
 
-    def is_over_15(self):
+    @staticmethod
+    def is_over_15(date_of_birth):
         """
         Méthode qui vérifie si l'utilisateur a plus de 15 ans.
         """
-        if self.date_of_birth:
+        if date_of_birth:
             today = date.today()
             age = (
                 today.year
-                - self.date_of_birth.year
+                - date_of_birth.year
                 - (
                     (today.month, today.day)
-                    < (self.date_of_birth.month, self.date_of_birth.day)
+                    < (date_of_birth.month, date_of_birth.day)
                 )
             )
             return age > 15
