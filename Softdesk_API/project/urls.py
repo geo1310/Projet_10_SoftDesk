@@ -8,5 +8,5 @@ router = DefaultRouter()
 router.register("project", ProjectViewSet, basename="project")
 
 urlpatterns = [
-    path("api", include(router.urls)),
+    path("api/", include(router.urls)),
 ]

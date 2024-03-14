@@ -144,3 +144,16 @@ SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(hours=2),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
 }
+
+SWAGGER_SETTINGS = {
+    'SECURITY_DEFINITIONS': {
+        'Bearer': {
+            'type': 'apiKey',
+            'name': 'Authorization',
+            'scheme': 'Bearer',
+            'in': 'header',
+        },
+    },
+    'USE_SESSION_AUTH': False,  # Désactiver l'authentification de session
+    'SECURITY': ['Bearer'],  # Spécifier que l'authentification requiert un jeton JWT
+}
