@@ -2,18 +2,16 @@ from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework import status
 
+from django.db import IntegrityError
+
 from drf_yasg.utils import swagger_auto_schema
 
-from .models import CustomUser
 from .serializers import CustomUserSerializer
 
 
 class CustomUserViewSet(viewsets.ViewSet):
     """
-    ViewSet personnalisé pour gérer les opérations sur les utilisateurs.
-
-    Cette classe gère la création de nouveaux utilisateurs en vérifiant
-    si l'utilisateur a plus de 15 ans avant de l'enregistrer dans la base de données.
+    Gestion des opérations sur les utilisateurs
     """
 
     @swagger_auto_schema(
@@ -27,9 +25,8 @@ class CustomUserViewSet(viewsets.ViewSet):
         """
         Méthode pour créer un nouvel utilisateur.
 
-        Cette méthode reçoit les données de la requête HTTP POST, valide ces données,
-        vérifie si l'utilisateur a plus de 15 ans, puis enregistre l'utilisateur
-        dans la base de données si les données sont valides.
+        Cette méthode reçoit les données de la requête HTTP POST et valide ces données.
+        Rélève aussi les erreurs d'intégrité du modele utilisateur.
 
         Args:
 
@@ -40,20 +37,11 @@ class CustomUserViewSet(viewsets.ViewSet):
         """
         serializer = CustomUserSerializer(data=request.data)
 
-        if serializer.is_valid():
+        try:
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-            # Vérifie l'âge de l'utilisateur
-            date_of_birth = serializer.validated_data.get("date_of_birth")
-
-            if date_of_birth and not CustomUser.is_over_15(date_of_birth):
-
-                return Response(
-                    {"error": "L'utilisateur doit avoir plus de 15 ans."},
-                    status=status.HTTP_400_BAD_REQUEST,
-                )
-
-            serializer.save()
-
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        except IntegrityError as e:
+            return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)

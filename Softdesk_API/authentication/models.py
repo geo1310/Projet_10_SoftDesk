@@ -1,6 +1,8 @@
+from django.db.models import CheckConstraint, Q
+
 from django.contrib.auth.models import AbstractUser
 from django.db import models
-from datetime import date
+from datetime import date, timedelta
 
 
 class CustomUser(AbstractUser):
@@ -25,24 +27,20 @@ class CustomUser(AbstractUser):
         can_data_be_shared: Booléen indiquant si les données de l'utilisateur peuvent être partagées ou non.
     """
 
-    date_of_birth = models.DateField(null=True, blank=True)
+    date_of_birth = models.DateField(null=False, blank=False)
     can_be_contacted = models.BooleanField(default=True)
     can_data_be_shared = models.BooleanField(default=True)
 
-    @staticmethod
-    def is_over_15(date_of_birth):
-        """
-        Méthode qui vérifie si l'utilisateur a plus de 15 ans.
-        """
-        if date_of_birth:
-            today = date.today()
-            age = (
-                today.year
-                - date_of_birth.year
-                - (
-                    (today.month, today.day)
-                    < (date_of_birth.month, date_of_birth.day)
-                )
-            )
-            return age > 15
-        return False
+    class Meta:
+
+        constraints = [
+            CheckConstraint(
+                # condition dans la requete __lte : less than or equal
+                check=Q(date_of_birth__lte=date.today()),
+                name="Votre naissance n'a pas encore eu lieu !!!",
+            ),
+            CheckConstraint(
+                check=Q(date_of_birth__lte=date.today() - timedelta(days=15 * 365)),
+                name="Vous devez avoir plus de 15 ans !!!",
+            ),
+        ]
