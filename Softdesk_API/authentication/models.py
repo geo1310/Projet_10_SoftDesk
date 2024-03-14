@@ -35,12 +35,12 @@ class CustomUser(AbstractUser):
 
         constraints = [
             CheckConstraint(
-                # condition dans la requete __lte : less than or equal
-                check=Q(date_of_birth__lte=date.today()),
+                # condition dans la requete __lt : less than
+                check=Q(date_of_birth__lt=date.today()),
                 name="Votre naissance n'a pas encore eu lieu !!!",
             ),
             CheckConstraint(
-                check=Q(date_of_birth__lte=date.today() - timedelta(days=15 * 365)),
+                check=Q(date_of_birth__lt=date.today() - timedelta(days=15 * 365)),
                 name="Vous devez avoir plus de 15 ans !!!",
             ),
         ]
