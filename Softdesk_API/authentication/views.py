@@ -2,6 +2,8 @@ from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework import status
 
+from drf_yasg.utils import swagger_auto_schema
+
 from .models import CustomUser
 from .serializers import CustomUserSerializer
 
@@ -12,11 +14,15 @@ class CustomUserViewSet(viewsets.ViewSet):
 
     Cette classe gère la création de nouveaux utilisateurs en vérifiant
     si l'utilisateur a plus de 15 ans avant de l'enregistrer dans la base de données.
-
-    Attributes:
-        None
     """
 
+    @swagger_auto_schema(
+        request_body=CustomUserSerializer,
+        responses={
+            status.HTTP_201_CREATED: CustomUserSerializer(),
+            status.HTTP_400_BAD_REQUEST: "Erreur de validation",
+        },
+    )
     def create(self, request):
         """
         Méthode pour créer un nouvel utilisateur.
@@ -26,6 +32,7 @@ class CustomUserViewSet(viewsets.ViewSet):
         dans la base de données si les données sont valides.
 
         Args:
+
             request (HttpRequest): Requête HTTP POST contenant les données de l'utilisateur.
 
         Returns:
@@ -45,7 +52,6 @@ class CustomUserViewSet(viewsets.ViewSet):
                     status=status.HTTP_400_BAD_REQUEST,
                 )
 
-            
             serializer.save()
 
             return Response(serializer.data, status=status.HTTP_201_CREATED)

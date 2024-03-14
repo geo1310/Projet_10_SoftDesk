@@ -5,7 +5,7 @@ from rest_framework.routers import DefaultRouter
 from .views import CustomUserViewSet
 
 router = DefaultRouter()
-router.register('signup', CustomUserViewSet, basename='user')
+router.register("signup", CustomUserViewSet, basename="user")
 
 urlpatterns = [
     path("api-auth/", include("rest_framework.urls")),
