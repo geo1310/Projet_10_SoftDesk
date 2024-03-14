@@ -2,10 +2,16 @@ from django.contrib import admin
 
 from .models import CustomUser
 
-
 @admin.register(CustomUser)
 class CustomUserAdmin(admin.ModelAdmin):
-    """docstring"""
+    """
+    Administration personnalisée pour le modèle CustomUser.
+
+    Cette classe permet de personnaliser l'interface d'administration Django pour le modèle CustomUser.
+
+    Attributes:
+        list_display (tuple): Liste des champs à afficher dans la liste des utilisateurs de l'interface admin.
+    """
 
     list_display = (
         "username",
