@@ -18,8 +18,6 @@ class ProjectViewSet(viewsets.ModelViewSet):
     Permet d'effectuer des opérations CRUD (Create, Retrieve, Update, Delete)
     sur les instances du modèle Project.
     """
-
-    queryset = Project.objects.all()
     serializer_class = ProjectSerializer
 
     permission_classes = [IsAuthenticated]
@@ -37,7 +35,7 @@ class ProjectViewSet(viewsets.ModelViewSet):
         Returns:
             Response: Réponse HTTP contenant la liste de tous les projets.
         """
-        projects = self.get_queryset()
+        projects = Project.objects.all()
         serializer = ProjectDetailSerializer(projects, many=True)
         return Response(serializer.data)
 

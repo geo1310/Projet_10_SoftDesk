@@ -28,6 +28,9 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("", include("authentication.urls")),
     path("", include("project.urls")),
+    path("", include("issue.urls")),
+    path("", include("comment.urls")),
+
     path(
         "swagger/",
         schema_view.with_ui("swagger", cache_timeout=0),
