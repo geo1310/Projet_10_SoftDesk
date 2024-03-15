@@ -14,8 +14,8 @@ class CommentAdmin(admin.ModelAdmin):
 
     list_display = (
         "author",
+        "title",
         "issue_assigned",
         "time_created",
         "id",
     )
-

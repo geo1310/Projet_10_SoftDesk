@@ -23,6 +23,8 @@ class Comment(models.Model):
         blank=True,
     )
 
+    title = models.CharField(max_length=128)
+
     description = models.TextField(max_length=2048)
     
     issue_assigned = models.ForeignKey(
