@@ -25,7 +25,10 @@ class CustomUserViewSet(viewsets.ViewSet):
         Méthode pour créer un nouvel utilisateur.
 
         Cette méthode reçoit les données de la requête HTTP POST et valide ces données.
-        Rélève aussi les erreurs d'intégrité du modele utilisateur.
+        
+        Rélève aussi les erreurs d'intégrité du modele utilisateur: 
+            La date de naissance de l'utilisateur ne doit pas 
+            L'age de l'utilisateur doit etre supérieur à 15 ans
 
         Args:
 

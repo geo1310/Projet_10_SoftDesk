@@ -1,3 +1,4 @@
+from rest_framework.views import APIView
 from rest_framework import viewsets, status
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
@@ -7,12 +8,12 @@ from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 
 from .models import Project
-from .serializers import ProjectSerializer, ProjectDetailSerializer
+from .serializers import ProjectSerializer, ProjectDetailSerializer, ContributorSerializer
 
 
 class ProjectViewSet(viewsets.ModelViewSet):
     """
-    ViewSet pour le modèle Project.
+    ViewSet pour le Modèle Project.
 
     Permet d'effectuer des opérations CRUD (Create, Retrieve, Update, Delete)
     sur les instances du modèle Project.
@@ -63,9 +64,9 @@ class ProjectViewSet(viewsets.ModelViewSet):
     
 
     @swagger_auto_schema(
-        request_body=ProjectSerializer,
+        request_body=ProjectDetailSerializer,
         responses={
-            status.HTTP_201_CREATED: ProjectSerializer(),
+            status.HTTP_201_CREATED: ProjectDetailSerializer(),
             status.HTTP_400_BAD_REQUEST: "Erreur de validation",
         },
     )
@@ -114,3 +115,26 @@ class ProjectViewSet(viewsets.ModelViewSet):
             raise PermissionDenied("Vous n'êtes pas autorisé à supprimer ce projet.")
         
         return super().destroy(request, *args, **kwargs)
+    
+
+    @swagger_auto_schema(
+        request_body=ContributorSerializer,
+        responses={
+            status.HTTP_200_OK: ProjectSerializer(),
+            status.HTTP_400_BAD_REQUEST: "Erreur de validation",
+            status.HTTP_403_FORBIDDEN: "Vous n'êtes pas autorisé à ajouter des contributeurs à ce projet."
+        },
+    )
+    def add_contributors(self, request, pk=None):
+        """
+        Ajoute des contributeurs à un projet.
+
+        Args:
+            request (HttpRequest): La requête HTTP contenant les données de mise à jour.
+            pk (int): Clé primaire du projet auquel ajouter les contributeurs.
+
+        Returns:
+            Response: Réponse HTTP indiquant le résultat de l'ajout de contributeurs.
+        """
+        pass
+    
