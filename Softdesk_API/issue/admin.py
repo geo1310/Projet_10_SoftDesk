@@ -19,5 +19,6 @@ class IssueAdmin(admin.ModelAdmin):
         "project_assigned",
         "priority",
         "progress",
+        "time_created",
         "id",
     )
