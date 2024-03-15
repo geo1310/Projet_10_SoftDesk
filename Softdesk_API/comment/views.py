@@ -1,17 +1,17 @@
-from rest_framework import viewsets, status
-from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
-from rest_framework.exceptions import PermissionDenied
-
 from drf_yasg.utils import swagger_auto_schema
+from rest_framework import status, viewsets
+from rest_framework.exceptions import PermissionDenied
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
 
 from .models import Comment
 from .serializers import CommentSerializer
 
+
 class CommentViewSet(viewsets.ModelViewSet):
     """
     ViewSet pour le modèle Comment.
-    
+
     """
 
     queryset = Comment.objects.all()
@@ -39,9 +39,9 @@ class CommentViewSet(viewsets.ModelViewSet):
         """
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        
+
         serializer.save(author=request.user)
-        
+
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
     @swagger_auto_schema(
@@ -66,5 +66,5 @@ class CommentViewSet(viewsets.ModelViewSet):
 
         if instance.author != self.request.user:
             raise PermissionDenied("Vous n'êtes pas autorisé à supprimer ce problème.")
-        
+
         return super().destroy(request, *args, **kwargs)

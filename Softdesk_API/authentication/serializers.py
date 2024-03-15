@@ -2,6 +2,7 @@ from rest_framework import serializers
 
 from .models import CustomUser
 
+
 class CustomUserSerializer(serializers.ModelSerializer):
     """
     Serializer pour le modèle CustomUser.

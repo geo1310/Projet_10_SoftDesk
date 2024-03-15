@@ -1,10 +1,8 @@
 from django.contrib import admin
-from django.urls import path, include
-
-from rest_framework import permissions
-
+from django.urls import include, path
 from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
+from rest_framework import permissions
 
 # Définition de l'objet SchemaView pour swagger
 schema_view = get_schema_view(
@@ -30,7 +28,6 @@ urlpatterns = [
     path("", include("project.urls")),
     path("", include("issue.urls")),
     path("", include("comment.urls")),
-
     path(
         "swagger/",
         schema_view.with_ui("swagger", cache_timeout=0),

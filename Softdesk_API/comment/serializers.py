@@ -1,5 +1,7 @@
 from rest_framework import serializers
+
 from .models import Comment
+
 
 class CommentSerializer(serializers.ModelSerializer):
     """
@@ -15,5 +17,6 @@ class CommentSerializer(serializers.ModelSerializer):
             model (class): Classe du modèle à sérialiser (Project).
             fields (tuple): Liste des champs du modèle à inclure dans la sérialisation.
         """
+
         model = Comment
-        fields = '__all__'
+        fields = "__all__"

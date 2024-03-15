@@ -1,5 +1,7 @@
 from rest_framework import serializers
+
 from .models import Issue
+
 
 class IssueSerializer(serializers.ModelSerializer):
     """
@@ -15,5 +17,6 @@ class IssueSerializer(serializers.ModelSerializer):
             model (class): Classe du modèle à sérialiser (Project).
             fields (tuple): Liste des champs du modèle à inclure dans la sérialisation.
         """
+
         model = Issue
-        fields = '__all__'
+        fields = "__all__"
