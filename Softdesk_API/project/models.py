@@ -1,5 +1,4 @@
 from django.conf import settings
-from drf_yasg.utils import swagger_auto_schema
 
 from django.db import models
 

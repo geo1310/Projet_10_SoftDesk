@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     "drf_yasg",
     "authentication",
     "project",
+    "issue",
 ]
 
 MIDDLEWARE = [
@@ -146,14 +147,14 @@ SIMPLE_JWT = {
 }
 
 SWAGGER_SETTINGS = {
-    'SECURITY_DEFINITIONS': {
-        'Bearer': {
-            'type': 'apiKey',
-            'name': 'Authorization',
-            'scheme': 'Bearer',
-            'in': 'header',
+    "SECURITY_DEFINITIONS": {
+        "Bearer": {
+            "type": "apiKey",
+            "name": "Authorization",
+            "scheme": "Bearer",
+            "in": "header",
         },
     },
-    'USE_SESSION_AUTH': False,  # Désactiver l'authentification de session
-    'SECURITY': ['Bearer'],  # Spécifier que l'authentification requiert un jeton JWT
+    "USE_SESSION_AUTH": False,  # Désactiver l'authentification de session
+    "SECURITY": ["Bearer"],  # Spécifier que l'authentification requiert un jeton JWT
 }
