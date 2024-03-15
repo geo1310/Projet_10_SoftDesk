@@ -55,6 +55,7 @@ class ProjectViewSet(viewsets.ModelViewSet):
         Création d'un nouveau Projet.
         Author et contributor sont remplis automatiquement avec l'utilisateur connecté.
         """
+
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
@@ -95,6 +96,8 @@ class ProjectViewSet(viewsets.ModelViewSet):
             status.HTTP_204_NO_CONTENT: "Le projet a été supprimé.",
         },
     )
+    # delete  !!!
+    # CRUD
     def destroy(self, request, *args, **kwargs):
         """
         Suppression d'un projet.
@@ -134,4 +137,7 @@ class ProjectViewSet(viewsets.ModelViewSet):
         Returns:
             Response: Réponse HTTP indiquant le résultat de l'ajout de contributeurs.
         """
+
+        # TODO: Ajouter la logique pour ajouter des contributeurs à un projet.
+
         pass
