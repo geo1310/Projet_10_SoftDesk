@@ -1,7 +1,5 @@
 from django.conf import settings
-
 from django.db import models
-
 from issue.models import Issue
 
 
@@ -26,14 +24,14 @@ class Comment(models.Model):
     title = models.CharField(max_length=128)
 
     description = models.TextField(max_length=2048)
-    
+
     issue_assigned = models.ForeignKey(
         to=Issue,
         related_name="issue_assigned",
         on_delete=models.CASCADE,
         blank=True,
     )
-    
+
     time_created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

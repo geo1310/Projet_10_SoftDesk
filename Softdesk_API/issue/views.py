@@ -1,17 +1,17 @@
-from rest_framework import viewsets, status
-from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
-from rest_framework.exceptions import PermissionDenied
-
 from drf_yasg.utils import swagger_auto_schema
+from rest_framework import status, viewsets
+from rest_framework.exceptions import PermissionDenied
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
 
 from .models import Issue
 from .serializers import IssueSerializer
 
+
 class IssueViewSet(viewsets.ModelViewSet):
     """
     ViewSet pour le modèle Issue.
-    
+
     """
 
     queryset = Issue.objects.all()
@@ -39,9 +39,9 @@ class IssueViewSet(viewsets.ModelViewSet):
         """
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        
+
         serializer.save(author=request.user)
-        
+
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
     @swagger_auto_schema(
@@ -49,6 +49,7 @@ class IssueViewSet(viewsets.ModelViewSet):
             status.HTTP_204_NO_CONTENT: "Le problème a été supprimé.",
         },
     )
+    # delete
     def destroy(self, request, *args, **kwargs):
         """
         Supprime un problème (issue).
@@ -66,5 +67,5 @@ class IssueViewSet(viewsets.ModelViewSet):
 
         if instance.author != self.request.user:
             raise PermissionDenied("Vous n'êtes pas autorisé à supprimer ce problème.")
-        
+
         return super().destroy(request, *args, **kwargs)

@@ -1,8 +1,8 @@
-from django.db.models import CheckConstraint, Q
+from datetime import date, timedelta
 
 from django.contrib.auth.models import AbstractUser
 from django.db import models
-from datetime import date, timedelta
+from django.db.models import CheckConstraint, Q
 
 
 class CustomUser(AbstractUser):
