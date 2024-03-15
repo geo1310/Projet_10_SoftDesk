@@ -38,7 +38,7 @@ class Issue(models.Model):
         ("In Progress", "In Progress"),
         ("Finished", "Finished"),
     ]
-    title = models.CharField(max_length=128, verbose_name="Titre")
+    title = models.CharField(max_length=128)
     description = models.TextField(max_length=2048, blank=True)
     author = models.ForeignKey(
         to=settings.AUTH_USER_MODEL,
@@ -59,7 +59,7 @@ class Issue(models.Model):
         null=True,
         on_delete=models.SET_NULL,
     )
-    type = models.CharField(max_length=20, choices=TYPE_CHOICES, verbose_name="Type")
+    type = models.CharField(max_length=20, choices=TYPE_CHOICES)
     priority = models.CharField(
         max_length=20, choices=TYPE_PRIORITY, verbose_name="Priority"
     )

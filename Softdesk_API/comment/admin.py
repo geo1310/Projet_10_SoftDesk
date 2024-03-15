@@ -1,12 +1,12 @@
 from django.contrib import admin
 
-from .models import Issue
+from .models import Comment
 
 
-@admin.register(Issue)
-class IssueAdmin(admin.ModelAdmin):
+@admin.register(Comment)
+class CommentAdmin(admin.ModelAdmin):
     """
-    Administration personnalisée pour le modèle Issue.
+    Administration personnalisée pour le modèle Comment.
 
     Attributes:
         list_display (tuple): Liste des champs à afficher dans la liste des utilisateurs de l'interface admin.
@@ -14,11 +14,8 @@ class IssueAdmin(admin.ModelAdmin):
 
     list_display = (
         "author",
-        "title",
-        "type",
-        "project_assigned",
-        "priority",
-        "progress",
+        "issue_assigned",
         "time_created",
         "id",
     )
+
