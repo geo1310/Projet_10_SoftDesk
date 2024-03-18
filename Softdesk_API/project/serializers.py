@@ -19,7 +19,7 @@ class ProjectSerializer(serializers.ModelSerializer):
         """
 
         model = Project
-        fields = ("title", "description", "type", "contributors")
+        fields = ("id", "title", "description", "type", "contributors")
 
 
 class ProjectDetailSerializer(serializers.ModelSerializer):

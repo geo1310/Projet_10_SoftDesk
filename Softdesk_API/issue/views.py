@@ -49,8 +49,7 @@ class IssueViewSet(viewsets.ModelViewSet):
             status.HTTP_204_NO_CONTENT: "Le problème a été supprimé.",
         },
     )
-    # delete
-    def destroy(self, request, *args, **kwargs):
+    def delete(self, request, *args, **kwargs):
         """
         Supprime un problème (issue).
         Seul l'auteur du problème peut le supprimer.

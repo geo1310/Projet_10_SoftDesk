@@ -17,37 +17,26 @@ from .serializers import (
 class ProjectViewSet(viewsets.ModelViewSet):
     """
     ViewSet pour le Modèle Project.
-
-    Permet d'effectuer des opérations CRUD (Create, Retrieve, Update, Delete)
-    sur les instances du modèle Project.
     """
 
     serializer_class = ProjectSerializer
+    queryset = Project.objects.all()
 
     permission_classes = [IsAuthenticated]
-
-    def list(self, request, *args, **kwargs):
-        """
-        Récupère la liste de tous les projets.
-        Un utilisateur doit etre connecté.
-
-        Args:
-            request (HttpRequest): La requête HTTP.
-            *args: Arguments positionnels supplémentaires.
-            **kwargs: Arguments nommés supplémentaires.
-
-        Returns:
-            Response: Réponse HTTP contenant la liste de tous les projets.
-        """
-        projects = Project.objects.all()
-        serializer = ProjectDetailSerializer(projects, many=True)
-        return Response(serializer.data)
 
     @swagger_auto_schema(
         request_body=ProjectSerializer,
         responses={
             status.HTTP_201_CREATED: ProjectSerializer(),
             status.HTTP_400_BAD_REQUEST: "Erreur de validation",
+        },
+        examples={
+            "application/json": {
+                "title": "string",
+                "description": "string",
+                "type": "frontend",
+                "contributors": [1, 2, 3],
+            }
         },
     )
     def create(self, request):
@@ -96,9 +85,7 @@ class ProjectViewSet(viewsets.ModelViewSet):
             status.HTTP_204_NO_CONTENT: "Le projet a été supprimé.",
         },
     )
-    # delete  !!!
-    # CRUD
-    def destroy(self, request, *args, **kwargs):
+    def delete(self, request, *args, **kwargs):
         """
         Suppression d'un projet.
         L'utilisateur connecté doit etre l'auteur du projet.
@@ -121,9 +108,28 @@ class ProjectViewSet(viewsets.ModelViewSet):
     @swagger_auto_schema(
         request_body=ContributorSerializer,
         responses={
-            status.HTTP_200_OK: ProjectSerializer(),
-            status.HTTP_400_BAD_REQUEST: "Erreur de validation",
-            status.HTTP_403_FORBIDDEN: "Vous n'êtes pas autorisé à ajouter des contributeurs à ce projet.",
+            status.HTTP_200_OK: openapi.Response(
+                description="Le projet avec les contributeurs ajoutés avec succès.",
+                schema=ProjectSerializer(),
+                examples={
+                    "application/json": {
+                        "id": 1,
+                        "title": "Nom du projet",
+                        # Autres champs du projet
+                        "contributors": [
+                            1,
+                            2,
+                            3,
+                        ],  # Liste des IDs des contributeurs ajoutés
+                    }
+                },
+            ),
+            status.HTTP_400_BAD_REQUEST: openapi.Response(
+                description="Erreur de validation. Le corps de la requête est invalide."
+            ),
+            status.HTTP_403_FORBIDDEN: openapi.Response(
+                description="Vous n'êtes pas autorisé à ajouter des contributeurs à ce projet."
+            ),
         },
     )
     def add_contributors(self, request, pk=None):

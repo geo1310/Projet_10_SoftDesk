@@ -4,6 +4,12 @@ from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
 from rest_framework import permissions
 
+from django.http import HttpResponseRedirect
+
+def root_redirect(request):
+    # Redirige vers la documentation swagger
+    return HttpResponseRedirect('/swagger/')
+
 # Définition de l'objet SchemaView pour swagger
 schema_view = get_schema_view(
     openapi.Info(
@@ -23,11 +29,14 @@ schema_view = get_schema_view(
 
 
 urlpatterns = [
+    path('', root_redirect),
     path("admin/", admin.site.urls),
-    path("", include("authentication.urls")),
-    path("", include("project.urls")),
-    path("", include("issue.urls")),
-    path("", include("comment.urls")),
+    path("softdesk/api/", include([
+        path("", include("authentication.urls")),
+        path("", include("project.urls")),
+        path("", include("issue.urls")),
+        path("", include("comment.urls")),
+    ])),
     path(
         "swagger/",
         schema_view.with_ui("swagger", cache_timeout=0),
