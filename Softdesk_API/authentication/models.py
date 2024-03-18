@@ -27,9 +27,11 @@ class CustomUser(AbstractUser):
         can_data_be_shared: Booléen indiquant si les données de l'utilisateur peuvent être partagées ou non.
     """
 
-    date_of_birth = models.DateField(null=False, blank=False)
+    date_of_birth = models.DateField()
     can_be_contacted = models.BooleanField(default=True)
     can_data_be_shared = models.BooleanField(default=True)
+
+    REQUIRED_FIELDS = ["date_of_birth",]
 
     class Meta:
 
