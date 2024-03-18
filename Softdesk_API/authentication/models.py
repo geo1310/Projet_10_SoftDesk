@@ -39,7 +39,7 @@ class CustomUser(AbstractUser):
             CheckConstraint(
                 # condition dans la requete __lt : less than
                 check=Q(date_of_birth__lt=date.today()),
-                name="Votre naissance n'a pas encore eu lieu !!!",
+                name="La date de naissance doit etre dans le passé !!!",
             ),
             CheckConstraint(
                 check=Q(date_of_birth__lt=date.today() - timedelta(days=15 * 365)),
