@@ -1,14 +1,12 @@
-from django.db import IntegrityError
 from django.core.exceptions import ObjectDoesNotExist
-
+from django.db import IntegrityError
 from drf_yasg.utils import swagger_auto_schema
-
 from rest_framework import status, viewsets
 from rest_framework.response import Response
 
-from .serializers import CustomUserSerializer
 from .models import CustomUser
 from .permissions import IsCreationOrIsAuthenticated
+from .serializers import CustomUserSerializer
 
 
 class CustomUserViewSet(viewsets.ViewSet):
@@ -58,14 +56,15 @@ class CustomUserViewSet(viewsets.ViewSet):
         responses={
             status.HTTP_200_OK: CustomUserSerializer(),
             status.HTTP_400_BAD_REQUEST: "Erreur de validation",
-            status.HTTP_403_FORBIDDEN: "Vous n'êtes pas autorisé à mettre à jour cet utilisateur",
+            status.HTTP_401_UNAUTHORIZED: "Authentification non trouvée",
+            status.HTTP_403_FORBIDDEN: "Vous n'êtes pas autorisé à modifier cet utilisateur",
             status.HTTP_404_NOT_FOUND: "Utilisateur non trouvé",
         },
     )
     def update(self, request, pk=None):
         """
         Méthode pour modifier un utilisateur existant.
-        L'utilisateur peut modifier que ses propres données.
+        Un utilisateur doit etre authentifié et il ne peut supprimer que ses propres données.
 
         Args:
             request (HttpRequest): Requête HTTP PATCH ou PUT contenant les données à mettre à jour.
@@ -76,7 +75,7 @@ class CustomUserViewSet(viewsets.ViewSet):
         """
         try:
             user = CustomUser.objects.get(pk=pk)
-            if (request.user == user):
+            if request.user == user:
                 serializer = CustomUserSerializer(user, data=request.data, partial=True)
                 if serializer.is_valid():
                     serializer.save()
@@ -84,9 +83,7 @@ class CustomUserViewSet(viewsets.ViewSet):
                 return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
             else:
                 return Response(
-                    {
-                        "error": "Vous n'êtes pas autorisé à mettre à jour cet utilisateur."
-                    },
+                    {"error": "Vous n'êtes pas autorisé à modifier cet utilisateur."},
                     status=status.HTTP_403_FORBIDDEN,
                 )
         except ObjectDoesNotExist:
@@ -100,6 +97,7 @@ class CustomUserViewSet(viewsets.ViewSet):
     @swagger_auto_schema(
         responses={
             status.HTTP_204_NO_CONTENT: "Utilisateur supprimé avec succès",
+            status.HTTP_401_UNAUTHORIZED: "Authentification non trouvée",
             status.HTTP_403_FORBIDDEN: "Vous n'êtes pas autorisé à supprimer cet utilisateur",
             status.HTTP_404_NOT_FOUND: "Utilisateur non trouvé",
         },
@@ -107,7 +105,7 @@ class CustomUserViewSet(viewsets.ViewSet):
     def destroy(self, request, pk=None):
         """
         Méthode pour supprimer un utilisateur existant.
-        L'utilisateur peut supprimer que ses propres données.
+        Un utilisateur doit etre authentifié et il ne peut supprimer que ses propres données.
 
         Args:
             request (HttpRequest): Requête HTTP DELETE.

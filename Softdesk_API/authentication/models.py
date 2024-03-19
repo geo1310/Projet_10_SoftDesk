@@ -31,7 +31,9 @@ class CustomUser(AbstractUser):
     can_be_contacted = models.BooleanField(default=True)
     can_data_be_shared = models.BooleanField(default=True)
 
-    REQUIRED_FIELDS = ["date_of_birth",]
+    REQUIRED_FIELDS = [
+        "date_of_birth",
+    ]
 
     class Meta:
 
