@@ -19,14 +19,18 @@ class ProjectSerializer(serializers.ModelSerializer):
         """
 
         model = Project
-        fields = ("id", "title", "description", "type", "contributors")
+        fields = "__all__"
 
 
-class ProjectDetailSerializer(serializers.ModelSerializer):
+class ProjectPostSerializer(serializers.ModelSerializer):
     """
-    Serializer pour le modèle Project.
+    Serializer pour les requetes POST de swagger.
 
     """
+    title = serializers.CharField(default="")
+    description = serializers.CharField(default="")
+    type = serializers.CharField(default="frontend")
+    contributors = serializers.ListField(default=[])
 
     class Meta:
         """
@@ -38,12 +42,5 @@ class ProjectDetailSerializer(serializers.ModelSerializer):
         """
 
         model = Project
-        fields = "__all__"
+        exclude = ["author"]
 
-
-class ContributorSerializer(serializers.Serializer):
-    """
-    Serializer pour la liste des contributeurs à ajouter à un projet.
-    """
-
-    contributors = serializers.ListField(child=serializers.IntegerField())

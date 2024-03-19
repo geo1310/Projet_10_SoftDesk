@@ -8,9 +8,4 @@ router.register("project", ProjectViewSet, basename="project")
 
 urlpatterns = [
     path("", include(router.urls)),
-    path(
-        "project/<int:pk>/add_contributors/",
-        ProjectViewSet.as_view({"post": "add_contributors"}),
-        name="add_contributors",
-    ),
 ]

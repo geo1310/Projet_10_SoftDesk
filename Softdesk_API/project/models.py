@@ -22,9 +22,9 @@ class Project(models.Model):
         ("android", "Android"),
     ]
 
-    title = models.CharField(max_length=128, verbose_name="Titre")
+    title = models.CharField(max_length=128, unique=True)
 
-    description = models.TextField(max_length=2048, blank=True)
+    description = models.TextField(max_length=2048)
 
     author = models.ForeignKey(
         to=settings.AUTH_USER_MODEL,
