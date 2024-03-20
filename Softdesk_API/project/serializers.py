@@ -27,6 +27,7 @@ class ProjectPostSerializer(serializers.ModelSerializer):
     Serializer pour les requetes POST de swagger.
 
     """
+
     title = serializers.CharField(default="")
     description = serializers.CharField(default="")
     type = serializers.CharField(default="frontend")
@@ -43,4 +44,3 @@ class ProjectPostSerializer(serializers.ModelSerializer):
 
         model = Project
         exclude = ["author"]
-
