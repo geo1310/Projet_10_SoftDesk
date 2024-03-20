@@ -37,7 +37,7 @@ class Issue(models.Model):
         ("In Progress", "In Progress"),
         ("Finished", "Finished"),
     ]
-    title = models.CharField(max_length=128)
+    title = models.CharField(max_length=128, unique=True)
     description = models.TextField(max_length=2048, blank=True)
     author = models.ForeignKey(
         to=settings.AUTH_USER_MODEL,

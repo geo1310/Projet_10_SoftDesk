@@ -3,11 +3,8 @@ from rest_framework import status, viewsets
 from rest_framework.response import Response
 
 from .models import Project
-from .serializers import (
-    ProjectPostSerializer,
-    ProjectSerializer,
-)
 from .permissions import IsAuthenticatedAndIsAuthor
+from .serializers import ProjectPostSerializer, ProjectSerializer
 
 
 class ProjectViewSet(viewsets.ModelViewSet):
@@ -19,6 +16,7 @@ class ProjectViewSet(viewsets.ModelViewSet):
 
     serializer_class = ProjectSerializer
 
+    # Liste des projets dont l'utilisateur est contributeur
     def get_queryset(self):
         user = self.request.user
         return Project.objects.filter(contributors=user)
@@ -100,7 +98,7 @@ class ProjectViewSet(viewsets.ModelViewSet):
         Returns:
             Response: Réponse HTTP indiquant le résultat de la mise à jour.
         """
-        
+
         return super().partial_update(request, *args, **kwargs)
 
     @swagger_auto_schema(

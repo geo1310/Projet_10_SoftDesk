@@ -20,10 +20,11 @@ class IsAuthenticatedAndIsAuthor(BasePermission):
             view (APIView): La vue sur laquelle la permission est vérifiée.
 
         Returns:
-            bool: True si l'utilisateur a la permission.
+            bool: True si l'utilisateur a la permission, False sinon.
         """
 
         if request.user.is_authenticated:
+
             if view.action in ["list", "create", "retrieve"]:
                 return True
             elif view.action in ["update", "partial_update", "destroy"]:
@@ -32,7 +33,7 @@ class IsAuthenticatedAndIsAuthor(BasePermission):
                     return True
                 else:
                     raise PermissionDenied(
-                        "Vous n'êtes pas autorisé à modifier ou à supprimer ce projet."
+                        "Vous n'êtes pas autorisé à modifier ou à supprimer cette issue."
                     )
 
         return False

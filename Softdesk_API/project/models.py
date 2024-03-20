@@ -1,5 +1,7 @@
 from django.conf import settings
 from django.db import models
+from rest_framework import status
+from rest_framework.response import Response
 
 
 class Project(models.Model):
@@ -43,3 +45,16 @@ class Project(models.Model):
 
     def __str__(self):
         return self.title
+
+    @staticmethod
+    def get_contributors_list(project_id):
+        """
+        Retourne la liste des contributeurs du projet identifié par project_id.
+        """
+        try:
+            project = Project.objects.get(pk=project_id)
+            return project.contributors.all()
+        except Project.DoesNotExist:
+            return Response(
+                {"error": "Le projet n'existe pas"}, status=status.HTTP_400_BAD_REQUEST
+            )
