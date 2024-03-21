@@ -9,9 +9,11 @@ from .serializers import ProjectPostSerializer, ProjectSerializer
 
 class ProjectViewSet(viewsets.ModelViewSet):
     """
-    ViewSet pour le Modèle Project.
+    Gestion des objets Project.
+
     Un utilisateur doit etre connecté et authentifié
-    Seul les Projets dont l'utilisateur connecté est contributeur sont accessibles.
+
+    Seuls les Projets dont l'utilisateur connecté est contributeur sont accessibles.
     """
 
     serializer_class = ProjectSerializer
@@ -34,8 +36,9 @@ class ProjectViewSet(viewsets.ModelViewSet):
     def create(self, request):
         """
         Création d'un nouveau Projet.
+
         Un utilisateur doit etre connecté.
-        Author et contributor sont remplis automatiquement avec l'utilisateur connecté.
+        author et contributors sont remplis automatiquement avec l'utilisateur connecté.
         Vous pouvez ajouter des contributors.
         """
 
@@ -62,6 +65,7 @@ class ProjectViewSet(viewsets.ModelViewSet):
     def update(self, request, *args, **kwargs):
         """
         Modification d'un projet.
+
         L'utilisateur connecté doit etre l'auteur du projet pour pouvoir le modifier.
 
         Args:
@@ -88,6 +92,7 @@ class ProjectViewSet(viewsets.ModelViewSet):
     def partial_update(self, request, *args, **kwargs):
         """
         Modification partielle d'un projet.
+
         L'utilisateur connecté doit etre l'auteur du projet pour pouvoir le modifier.
 
         Args:
@@ -112,6 +117,7 @@ class ProjectViewSet(viewsets.ModelViewSet):
     def destroy(self, request, *args, **kwargs):
         """
         Suppression d'un projet.
+
         L'utilisateur connecté doit etre l'auteur du projet pour pouvoir le supprimer
 
         Args:

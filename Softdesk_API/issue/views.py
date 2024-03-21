@@ -1,6 +1,5 @@
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework import status, viewsets
-from rest_framework.exceptions import PermissionDenied
 from rest_framework.response import Response
 
 from project.models import Project
@@ -12,13 +11,23 @@ from .serializers import IssuePostSerializer, IssueSerializer
 
 class IssueViewSet(viewsets.ModelViewSet):
     """
-    ViewSet pour le modèle Issue.
+    Gestion des Objets Issue
 
+    Un utilisateur doit etre connecté et authentifié
+
+    Seuls les Issue dont l'utilisateur connecté est contributeur, sont accessibles.
     """
-
-    queryset = Issue.objects.all()
+   
     serializer_class = IssueSerializer
     permission_classes = [IsAuthenticatedAndIsAuthor]
+
+    # Liste des Issues dont l'utilisateur est contributeur
+    def get_queryset(self):
+        user = self.request.user
+        projects =  Project.objects.filter(contributors=user)
+        project_ids = projects.values_list('id', flat=True)
+        
+        return Issue.objects.filter(project_assigned__id__in=project_ids)
 
     @swagger_auto_schema(
         request_body=IssuePostSerializer,
@@ -29,8 +38,12 @@ class IssueViewSet(viewsets.ModelViewSet):
     )
     def create(self, request, *args, **kwargs):
         """
-        Crée un nouveau problème (issue).
-        L'auteur du problème est automatiquement défini sur l'utilisateur connecté.
+        Création d'une Issue
+
+        L'auteur de l'issue doit faire parti des contributeurs du projet concerné.
+        L'auteur de l'issue est automatiquement défini sur l'utilisateur connecté.
+        
+        Le contributor_assigned est optionnel et doit faire parti des contributeurs du projet concerné.
 
         Args:
             request (HttpRequest): La requête HTTP contenant les données du problème.
@@ -86,6 +99,7 @@ class IssueViewSet(viewsets.ModelViewSet):
     def update(self, request, *args, **kwargs):
         """
         Modification d'une Issue.
+
         L'utilisateur connecté doit etre l'auteur de l'issue pour pouvoir la modifier.
 
         Args:
@@ -112,6 +126,7 @@ class IssueViewSet(viewsets.ModelViewSet):
     def partial_update(self, request, *args, **kwargs):
         """
         Modification partielle d'une Issue.
+
         L'utilisateur connecté doit etre l'auteur de l'issue pour pouvoir la modifier.
 
         Args:
@@ -136,6 +151,7 @@ class IssueViewSet(viewsets.ModelViewSet):
     def destroy(self, request, *args, **kwargs):
         """
         Suppression d'une Issue.
+
         L'utilisateur connecté doit etre l'auteur de l'Issue pour pouvoir la supprimer
 
         Args:

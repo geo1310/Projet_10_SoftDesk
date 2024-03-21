@@ -25,7 +25,7 @@ class CustomUserViewSet(viewsets.ViewSet):
     )
     def create(self, request):
         """
-        Méthode pour créer un nouvel utilisateur.
+        Inscription d'un nouvel utilisateur.
 
         Cette méthode reçoit les données de la requête HTTP POST et valide ces données.
 
@@ -63,8 +63,9 @@ class CustomUserViewSet(viewsets.ViewSet):
     )
     def update(self, request, pk=None):
         """
-        Méthode pour modifier un utilisateur existant.
-        Un utilisateur doit etre authentifié et il ne peut supprimer que ses propres données.
+        Modification d'un utilisateur existant.
+
+        Un utilisateur doit etre authentifié et il ne peut modifier que ses propres données.
 
         Args:
             request (HttpRequest): Requête HTTP PATCH ou PUT contenant les données à mettre à jour.
@@ -104,7 +105,8 @@ class CustomUserViewSet(viewsets.ViewSet):
     )
     def destroy(self, request, pk=None):
         """
-        Méthode pour supprimer un utilisateur existant.
+        Suppression un utilisateur existant.
+
         Un utilisateur doit etre authentifié et il ne peut supprimer que ses propres données.
 
         Args:
