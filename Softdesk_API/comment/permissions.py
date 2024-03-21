@@ -13,7 +13,7 @@ class IsAuthenticatedAndIsAuthor(BasePermission):
 
     def has_permission(self, request, view):
         """
-        Méthode pour vérifier si l'utilisateur a la permission d'accéder à la vue.
+        Méthode pour vérifier si l'utilisateur a la permission d'accéder à la ressource.
 
         Args:
             request (Request): L'objet de requête entrant.
@@ -25,7 +25,7 @@ class IsAuthenticatedAndIsAuthor(BasePermission):
 
         if request.user.is_authenticated:
 
-            if view.action in ["list", "create", "retrieve", "project_issues"]:
+            if view.action in ["list", "create", "retrieve", "issue_comments"]:
                 return True
             elif view.action in ["update", "partial_update", "destroy"]:
                 project = view.get_object()
@@ -33,7 +33,7 @@ class IsAuthenticatedAndIsAuthor(BasePermission):
                     return True
                 else:
                     raise PermissionDenied(
-                        "Vous n'êtes pas autorisé à modifier ou à supprimer cette issue."
+                        "Vous n'êtes pas autorisé à modifier ou à supprimer cette ressource."
                     )
 
         return False

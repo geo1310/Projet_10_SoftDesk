@@ -5,7 +5,7 @@ from .models import Issue
 
 class IssueSerializer(serializers.ModelSerializer):
     """
-    Serializer simplifié pour le modèle Issue.
+    Serializer pour le modèle Issue.
 
     """
 
@@ -42,8 +42,8 @@ class IssuePostSerializer(serializers.ModelSerializer):
 
         Attributes:
             model (class): Classe du modèle à sérialiser (Project).
-            fields (tuple): Liste des champs du modèle à inclure dans la sérialisation.
+            exclude (tuple): Liste des champs du modèle à exclure dans la sérialisation.
         """
 
         model = Issue
-        exclude = ["author"]
+        exclude = ("author",)

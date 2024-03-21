@@ -5,7 +5,7 @@ from .models import Project
 
 class ProjectSerializer(serializers.ModelSerializer):
     """
-    Serializer simplifié pour le modèle Project.
+    Serializer pour le modèle Project.
 
     """
 
@@ -39,8 +39,8 @@ class ProjectPostSerializer(serializers.ModelSerializer):
 
         Attributes:
             model (class): Classe du modèle à sérialiser (Project).
-            fields (tuple): Liste des champs du modèle à inclure dans la sérialisation.
+            exclude (tuple): Liste des champs du modèle à exclure dans la sérialisation.
         """
 
         model = Project
-        exclude = ["author"]
+        exclude = ("author",)
