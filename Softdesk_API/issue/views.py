@@ -84,7 +84,7 @@ class IssueViewSet(viewsets.ModelViewSet):
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
-        serializer.save(author=request.user)
+        serializer.save()
 
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 

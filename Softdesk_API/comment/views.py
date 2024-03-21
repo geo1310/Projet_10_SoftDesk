@@ -55,10 +55,26 @@ class CommentViewSet(viewsets.ModelViewSet):
         Returns:
             Response: Réponse HTTP indiquant le résultat de la création du problème.
         """
+
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
+        serializer.validated_data["author"] = request.user
 
-        serializer.save(author=request.user)
+        # Vérifie si l'auteur est dans la liste des contributeurs du projet concerné
+        issue = serializer.validated_data["issue_assigned"]
+        project = issue.project_assigned
+        contributors_project_list = project.contributors.all()
+
+        comment_author = serializer.validated_data["author"]
+        if comment_author not in contributors_project_list:
+            return Response(
+                {
+                    "error": "L'auteur de l'issue doit etre dans les contributeurs du projet concerné."
+                },
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        serializer.save()
 
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 

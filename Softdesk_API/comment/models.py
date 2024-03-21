@@ -22,7 +22,7 @@ class Comment(models.Model):
         blank=True,
     )
 
-    title = models.CharField(max_length=128)
+    title = models.CharField(max_length=128, unique=True)
 
     description = models.TextField(max_length=2048)
 
