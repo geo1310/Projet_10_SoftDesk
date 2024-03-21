@@ -95,6 +95,7 @@ class CustomUserViewSet(viewsets.ViewSet):
         except Exception as e:
             return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
+
     @swagger_auto_schema(
         responses={
             status.HTTP_204_NO_CONTENT: "Utilisateur supprimé avec succès",

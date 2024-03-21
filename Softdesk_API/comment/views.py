@@ -17,14 +17,14 @@ class CommentViewSet(viewsets.ModelViewSet):
     Gestion des Objets Comment
 
     Un utilisateur doit etre connecté et authentifié
-    Seuls les Comment dont l'utilisateur connecté est contributeur du projet concerné, sont accessibles.
+    Seuls les Comments dont l'utilisateur connecté est contributeur du projet concerné, sont accessibles.
 
     """
 
     serializer_class = CommentSerializer
     permission_classes = [IsAuthenticatedAndIsAuthor]
 
-    # Liste des Comment dont l'utilisateur est contributeur du projet concerné
+    # Liste des Comments dont l'utilisateur est contributeur du projet concerné
     def get_queryset(self):
         user = self.request.user
         projects = Project.objects.filter(contributors=user)
@@ -44,6 +44,7 @@ class CommentViewSet(viewsets.ModelViewSet):
         """
         Création d'un nouveau Comment
 
+        Un utilisateur doit etre connecté et authentifié
         L'auteur du comment doit faire parti des contributeurs du projet concerné.
         L'auteur du comment est automatiquement défini sur l'utilisateur connecté.
 
@@ -69,7 +70,7 @@ class CommentViewSet(viewsets.ModelViewSet):
         if comment_author not in contributors_project_list:
             return Response(
                 {
-                    "error": "L'auteur de l'issue doit etre dans les contributeurs du projet concerné."
+                    "error": "L'auteur du Comment doit etre dans les contributeurs du projet concerné."
                 },
                 status=status.HTTP_400_BAD_REQUEST,
             )
@@ -92,7 +93,8 @@ class CommentViewSet(viewsets.ModelViewSet):
         """
         Modification d'un Comment.
 
-        L'utilisateur connecté doit etre l'auteur du comment pour pouvoir le modifier.
+        Un utilisateur doit etre connecté et authentifié
+        L'utilisateur connecté doit etre l'auteur du Comment pour pouvoir le modifier.
 
         Args:
             request (HttpRequest): La requête HTTP contenant les données de mise à jour.
@@ -119,6 +121,7 @@ class CommentViewSet(viewsets.ModelViewSet):
         """
         Modification partielle d'un Comment.
 
+        Un utilisateur doit etre connecté et authentifié
         L'utilisateur connecté doit etre l'auteur du comment pour pouvoir le modifier.
 
         Args:
@@ -144,7 +147,8 @@ class CommentViewSet(viewsets.ModelViewSet):
         """
         Supprime un Comment
 
-        Seul l'auteur du comment peut le supprimer.
+        Un utilisateur doit etre connecté et authentifié
+        Seul l'auteur du Comment peut le supprimer.
 
         Args:
             request (HttpRequest): La requête HTTP contenant les données de suppression.
@@ -173,7 +177,7 @@ class CommentViewSet(viewsets.ModelViewSet):
     @action(detail=False, methods=["get"], url_path="issue-comments")
     def issue_comments(self, request):
         """
-        Récupère la liste des comments d'une issue spécifique.
+        Récupère la liste des Comments d'une issue spécifique.
 
         Un utilisateur doit etre connecté et authentifié
         Seuls les comments dont l'utilisateur connecté est contributeur du projet concerné, sont accessibles.
@@ -185,8 +189,6 @@ class CommentViewSet(viewsets.ModelViewSet):
             QuerySet: Le queryset des comments de l'issue spécifiée.
         """
         issue_id = request.query_params.get("issue_id")
-
-        print("........................", type(issue_id))
 
         # Vérifie si l'Issue existe
         try:
@@ -207,12 +209,12 @@ class CommentViewSet(viewsets.ModelViewSet):
         if not issue_project.contributors.filter(id=request.user.id).exists():
             return Response(
                 {
-                    "error": "Vous n'êtes pas autorisé à accéder aux issues de ce projet."
+                    "error": "Vous n'êtes pas autorisé à accéder aux Comments de ce projet."
                 },
                 status=status.HTTP_403_FORBIDDEN,
             )
 
-        # Récupère les issues du projet spécifié
+        # Récupère les Comments de l'Issue spécifié
         issues_comments = Comment.objects.filter(issue_assigned_id=issue_id)
         serializer = self.get_serializer(issues_comments, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)

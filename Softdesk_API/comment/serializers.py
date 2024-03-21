@@ -5,7 +5,7 @@ from .models import Comment
 
 class CommentSerializer(serializers.ModelSerializer):
     """
-    Serializer simplifié pour le modèle Comment.
+    Serializer pour le modèle Comment.
 
     """
 

@@ -199,8 +199,6 @@ class IssueViewSet(viewsets.ModelViewSet):
         """
         project_id = request.query_params.get("project_id")
 
-        print("........................", type(project_id))
-
         # Vérifie si le projet existe
         try:
             project_id = int(project_id)

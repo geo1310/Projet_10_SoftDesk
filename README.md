@@ -9,7 +9,6 @@
 [![PEP8](https://img.shields.io/badge/code%20style-pep8-orange.svg)](https://www.python.org/dev/peps/pep-0008/)
 [![Flake8](https://img.shields.io/badge/flake8-checked-blueviolet)](https://flake8.pycqa.org/en/latest/)
 [![Black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
-[![Djhtml](https://img.shields.io/badge/Django-HTML-Teal)](https://(https://github.com/rtts/djhtml))
 
 ![Repo Size](https://img.shields.io/github/repo-size/geo1310/projet_10_SoftDesk)
 ![GitHub commit activity](https://img.shields.io/github/commit-activity/m/geo1310/projet_10_SoftDesk)
@@ -51,6 +50,15 @@ pip install -r requirements.txt
 ```
 ## Usage
 
+Exécutez la commande suivante pour lancer le serveur de développement :
+
+```bash
+python manage.py runserver
+```
+Le serveur de développement démarre à l'adresse http://127.0.0.1:8000/ et est redirigé vers le Swagger de l'API.
+Toute la documentation de l'API se trouve sur le swagger ainsi que tous les Endpoints et les Modèles.
+
+![image](./docs/images/API_SoftDesk_Support_Swagger.png)
 
 ## Contribuer
 
