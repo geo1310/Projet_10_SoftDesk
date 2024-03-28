@@ -35,22 +35,24 @@ Développement d'une API RESTful
     * Les spécifications green code répertorient les mesures de conceptions « green », qui permettent d’optimiser et de simplifier le code, dans un but de sobriété énergétique. L’API devra tendre vers une utilisation optimisée des requêtes pour éviter la surconsommation des serveurs.
 
 
-## Installation et activation de l'environnement Virtuel
-Ouvrez un nouveau terminal et taper : 
+## Installation et activation de l'environnement Virtuel et des dépendances
+Création de l'envireonnement virtuel : 
 ```bash
 python -m venv .env-projet10-softdesk
 ```
-Selectionner l'environnement virtuel dans visual studio code ou l'activer en se plaçant dans le dossier **.env-projet10-softdesk/scripts** et taper : 
+Activation de l'environnement virtuel se pmlacer dans le dossier **.env-projet10-softdesk/scripts** et taper : 
 ```bash
 ./activate
 ```
-Installer les dependances necessaires au projet : 
+Installation des dependances necessaires au projet avec poetry : 
 ```bash
-pip install -r requirements.txt
+pip install poetry
+poetry install
+
 ```
 ## Usage
 
-Exécutez la commande suivante pour lancer le serveur de développement :
+S placer dans le dossier du projet et exécuter la commande suivante pour lancer le serveur de développement :
 
 ```bash
 python manage.py runserver
