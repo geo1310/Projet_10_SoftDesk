@@ -20,8 +20,11 @@ class ProjectViewSet(viewsets.ModelViewSet):
 
     # Liste des projets dont l'utilisateur est contributeur
     def get_queryset(self):
-        user = self.request.user
-        return Project.objects.filter(contributors=user)
+        if self.request.user.is_authenticated:
+            user = self.request.user
+            return Project.objects.filter(contributors=user)
+        else:
+            return Project.objects.none()
 
     permission_classes = [IsAuthenticatedAndIsAuthor]
 

@@ -26,12 +26,16 @@ class CommentViewSet(viewsets.ModelViewSet):
 
     # Liste des Comments dont l'utilisateur est contributeur du projet concerné
     def get_queryset(self):
-        user = self.request.user
-        projects = Project.objects.filter(contributors=user)
-        project_ids = projects.values_list("id", flat=True)
-        issues = Issue.objects.filter(project_assigned__id__in=project_ids)
-        issues_ids = issues.values_list("id", flat=True)
-        return Comment.objects.filter(issue_assigned__id__in=issues_ids)
+
+        if self.request.user.is_authenticated:
+            user = self.request.user
+            projects = Project.objects.filter(contributors=user)
+            project_ids = projects.values_list("id", flat=True)
+            issues = Issue.objects.filter(project_assigned__id__in=project_ids)
+            issues_ids = issues.values_list("id", flat=True)
+            return Comment.objects.filter(issue_assigned__id__in=issues_ids)
+        else:
+            return Comment.objects.none()
 
     @swagger_auto_schema(
         request_body=CommentPostSerializer,

@@ -5,6 +5,7 @@
 ![Django](https://img.shields.io/badge/django-5.0.3-green.svg)
 ![DjangoRestFramework](https://img.shields.io/badge/djangoRestFramework-3.12.4-green.svg)
 ![Swagger Icon](https://img.shields.io/badge/swagger_DRF-1.21.7-green.svg)
+![Poetry](https://img.shields.io/badge/Poetry-1.8.2-green.svg)
 
 [![PEP8](https://img.shields.io/badge/code%20style-pep8-orange.svg)](https://www.python.org/dev/peps/pep-0008/)
 [![Flake8](https://img.shields.io/badge/flake8-checked-blueviolet)](https://flake8.pycqa.org/en/latest/)
@@ -52,7 +53,7 @@ poetry install
 ```
 ## Usage
 
-S placer dans le dossier du projet et exécuter la commande suivante pour lancer le serveur de développement :
+Se placer dans le dossier du projet Softdesk_API et exécuter la commande suivante pour lancer le serveur de développement :
 
 ```bash
 python manage.py runserver

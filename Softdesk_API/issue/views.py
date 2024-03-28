@@ -24,11 +24,14 @@ class IssueViewSet(viewsets.ModelViewSet):
 
     # Liste des Issues dont l'utilisateur est contributeur du projet
     def get_queryset(self):
-        user = self.request.user
-        projects = Project.objects.filter(contributors=user)
-        project_ids = projects.values_list("id", flat=True)
+        if self.request.user.is_authenticated:
+            user = self.request.user
+            projects = Project.objects.filter(contributors=user)
+            project_ids = projects.values_list("id", flat=True)
 
-        return Issue.objects.filter(project_assigned__id__in=project_ids)
+            return Issue.objects.filter(project_assigned__id__in=project_ids)
+        else:
+            return Issue.objects.none()
 
     @swagger_auto_schema(
         request_body=IssuePostSerializer,
