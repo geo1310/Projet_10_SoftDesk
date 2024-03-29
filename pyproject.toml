@@ -16,6 +16,7 @@ isort = "^5.13.2"
 flake8 = "^7.0.0"
 flake8-html = "^0.4.3"
 drf-yasg = "^1.21.7"
+setuptools = "^69.2.0"
 
 
 [build-system]
