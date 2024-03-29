@@ -13,7 +13,8 @@ class ProjectViewSet(viewsets.ModelViewSet):
 
     Un utilisateur doit etre connecté et authentifié
 
-    Seuls les Projets dont l'utilisateur connecté est contributeur sont accessibles.
+    Seuls les Projets dont l'utilisateur connecté est contributeur sont 
+    accessibles.
     """
 
     serializer_class = ProjectSerializer
@@ -41,7 +42,8 @@ class ProjectViewSet(viewsets.ModelViewSet):
         Création d'un nouveau Projet.
 
         Un utilisateur doit etre connecté.
-        author et contributors sont remplis automatiquement avec l'utilisateur connecté.
+        author et contributors sont remplis automatiquement avec l'utilisateur
+        connecté.
         Vous pouvez ajouter des contributors.
         """
 
@@ -49,7 +51,7 @@ class ProjectViewSet(viewsets.ModelViewSet):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
-        # on sauvegarde l'utilisateur connecté comme auteur et contributor du nouveau projet
+        # on sauvegarde l'utilisateur connecté comme auteur et contributor
         serializer.save(author=request.user)
         serializer.instance.contributors.add(request.user)
 
@@ -61,7 +63,7 @@ class ProjectViewSet(viewsets.ModelViewSet):
             status.HTTP_201_CREATED: ProjectSerializer(),
             status.HTTP_400_BAD_REQUEST: "Erreur de validation",
             status.HTTP_401_UNAUTHORIZED: "Authentification non trouvée",
-            status.HTTP_403_FORBIDDEN: "Vous n'êtes pas autorisé à modifier ce projet",
+            status.HTTP_403_FORBIDDEN: "Non autorisé à modifier ce projet",
             status.HTTP_404_NOT_FOUND: "Projet non trouvé",
         },
     )
@@ -69,10 +71,11 @@ class ProjectViewSet(viewsets.ModelViewSet):
         """
         Modification d'un projet.
 
-        L'utilisateur connecté doit etre l'auteur du projet pour pouvoir le modifier.
+        L'utilisateur connecté doit etre l'auteur du projet pour pouvoir
+        le modifier.
 
         Args:
-            request (HttpRequest): La requête HTTP contenant les données de mise à jour.
+            request (HttpRequest): La requête HTTP contenant les données.
             *args: Arguments positionnels supplémentaires.
             **kwargs: Arguments nommés supplémentaires.
 
@@ -88,7 +91,7 @@ class ProjectViewSet(viewsets.ModelViewSet):
             status.HTTP_201_CREATED: ProjectSerializer(),
             status.HTTP_400_BAD_REQUEST: "Erreur de validation",
             status.HTTP_401_UNAUTHORIZED: "Authentification non trouvée",
-            status.HTTP_403_FORBIDDEN: "Vous n'êtes pas autorisé à modifier ce projet",
+            status.HTTP_403_FORBIDDEN: "Non autorisé à modifier ce projet",
             status.HTTP_404_NOT_FOUND: "Projet non trouvé",
         },
     )
@@ -96,10 +99,11 @@ class ProjectViewSet(viewsets.ModelViewSet):
         """
         Modification partielle d'un projet.
 
-        L'utilisateur connecté doit etre l'auteur du projet pour pouvoir le modifier.
+        L'utilisateur connecté doit etre l'auteur du projet pour pouvoir
+        le modifier.
 
         Args:
-            request (HttpRequest): La requête HTTP contenant les données de mise à jour.
+            request (HttpRequest): La requête HTTP contenant les données.
             *args: Arguments positionnels supplémentaires.
             **kwargs: Arguments nommés supplémentaires.
 
@@ -113,7 +117,7 @@ class ProjectViewSet(viewsets.ModelViewSet):
         responses={
             status.HTTP_204_NO_CONTENT: "Le projet a été supprimé.",
             status.HTTP_401_UNAUTHORIZED: "Authentification non trouvée",
-            status.HTTP_403_FORBIDDEN: "Vous n'êtes pas autorisé à modifier ce projet",
+            status.HTTP_403_FORBIDDEN: "Non autorisé à modifier ce projet",
             status.HTTP_404_NOT_FOUND: "Projet non trouvé",
         },
     )
@@ -121,10 +125,11 @@ class ProjectViewSet(viewsets.ModelViewSet):
         """
         Suppression d'un projet.
 
-        L'utilisateur connecté doit etre l'auteur du projet pour pouvoir le supprimer
+        L'utilisateur connecté doit etre l'auteur du projet pour pouvoir
+        le supprimer
 
         Args:
-            request (HttpRequest): La requête HTTP contenant les données de suppression.
+            request (HttpRequest): La requête HTTP contenant les données.
             *args: Arguments positionnels supplémentaires.
             **kwargs: Arguments nommés supplémentaires.
 

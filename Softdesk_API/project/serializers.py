@@ -15,7 +15,8 @@ class ProjectSerializer(serializers.ModelSerializer):
 
         Attributes:
             model (class): Classe du modèle à sérialiser (Project).
-            fields (tuple): Liste des champs du modèle à inclure dans la sérialisation.
+            fields (tuple): Liste des champs du modèle à inclure
+            dans la sérialisation.
         """
 
         model = Project
@@ -31,7 +32,10 @@ class ProjectPostSerializer(serializers.ModelSerializer):
     title = serializers.CharField(default="")
     description = serializers.CharField(default="")
     type = serializers.CharField(default="frontend")
-    contributors = serializers.ListField(default=[])
+    contributors = serializers.ListField(
+        child=serializers.IntegerField(),
+        default=[]
+        )
 
     class Meta:
         """
@@ -39,7 +43,8 @@ class ProjectPostSerializer(serializers.ModelSerializer):
 
         Attributes:
             model (class): Classe du modèle à sérialiser (Project).
-            exclude (tuple): Liste des champs du modèle à exclure dans la sérialisation.
+            exclude (tuple): Liste des champs du modèle à exclure 
+            dans la sérialisation.
         """
 
         model = Project

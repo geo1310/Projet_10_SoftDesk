@@ -41,7 +41,7 @@ Création de l'envireonnement virtuel :
 ```bash
 python -m venv .env-projet10-softdesk
 ```
-Activation de l'environnement virtuel se pmlacer dans le dossier **.env-projet10-softdesk/scripts** et taper : 
+Activation de l'environnement virtuel se placer dans le dossier **.env-projet10-softdesk/scripts** et taper : 
 ```bash
 ./activate
 ```
@@ -52,6 +52,13 @@ poetry install
 
 ```
 ## Usage
+
+* Le projet est fourni avec une base de données exemple avec 3 utilisateurs :
+    * __Id :__ 19 __name :__ user1 __password :__ user1-pass
+    * __Id :__ 20 __name :__ user2 __password :__ user2-pass
+    * __Id :__ 21 __name :__ user3 __password :__ user3-pass
+* Un super utilsateur : 
+    *  __Id :__ 18 __name :__ superuser1 __password :__ softdesk
 
 Se placer dans le dossier du projet Softdesk_API et exécuter la commande suivante pour lancer le serveur de développement :
 

@@ -19,7 +19,7 @@ schema_view = get_schema_view(
         description="""
         SoftDesk, une société d'édition de logiciels de collaboration, a décidé de publier une application permettant
         de remonter et suivre des problèmes techniques. 
-        Cette solution, SoftDesk Support, s’adresse à des entreprises en B2B (Business to Business). 
+        Cette solution, SoftDesk Support, s’adresse à des entreprises en B2B (Business to Business).
         """,
         contact=openapi.Contact(email="gbriche59@yahoo.fr"),
     ),
