@@ -6,7 +6,7 @@ from rest_framework.response import Response
 
 from .models import CustomUser
 from .permissions import IsCreationOrIsAuthenticated
-from .serializers import CustomUserSerializer
+from .serializers import CustomUserSerializer, CustomUserDetailSerializer,CustomUserPostSerializer
 
 
 class CustomUserViewSet(viewsets.ViewSet):
@@ -17,7 +17,30 @@ class CustomUserViewSet(viewsets.ViewSet):
     permission_classes = [IsCreationOrIsAuthenticated]
 
     @swagger_auto_schema(
-        request_body=CustomUserSerializer,
+        responses={
+            status.HTTP_200_OK: CustomUserSerializer(),
+            status.HTTP_401_UNAUTHORIZED: "Authentification non trouvée",
+            status.HTTP_403_FORBIDDEN: "Vous n'êtes pas autorisé à accéder à cette ressource",
+        },
+    )
+    def list(self, request):
+        """
+        Récupération des données de l'utilisateur.
+
+        L'utilisateur doit etre authentifié.
+
+        Args:
+            request (HttpRequest): Requête HTTP GET.
+
+        Returns:
+            Response: Réponse HTTP contenant les données de l'utilisateur authentifié.
+        """
+        user = request.user
+        serializer = CustomUserDetailSerializer(user)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    @swagger_auto_schema(
+        request_body=CustomUserPostSerializer,
         responses={
             status.HTTP_201_CREATED: CustomUserSerializer(),
             status.HTTP_400_BAD_REQUEST: "Erreur de validation",
@@ -63,9 +86,9 @@ class CustomUserViewSet(viewsets.ViewSet):
     )
     def update(self, request, pk=None):
         """
-        Modification d'un utilisateur existant.
+        Modification des donneés de l'utilisateur.
 
-        Un utilisateur doit etre authentifié et il ne peut modifier que ses propres données.
+        L'utilisateur doit etre authentifié et il ne peut modifier que ses propres données.
 
         Args:
             request (HttpRequest): Requête HTTP PATCH ou PUT contenant les données à mettre à jour.
@@ -105,9 +128,9 @@ class CustomUserViewSet(viewsets.ViewSet):
     )
     def destroy(self, request, pk=None):
         """
-        Suppression un utilisateur existant.
+        Suppression des données de l'utilisateur.
 
-        Un utilisateur doit etre authentifié et il ne peut supprimer que ses propres données.
+        L'utilisateur doit etre authentifié et il ne peut supprimer que ses propres données.
 
         Args:
             request (HttpRequest): Requête HTTP DELETE.
