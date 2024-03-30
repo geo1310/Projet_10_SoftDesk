@@ -13,7 +13,7 @@ class ProjectViewSet(viewsets.ModelViewSet):
 
     Un utilisateur doit etre connecté et authentifié
 
-    Seuls les Projets dont l'utilisateur connecté est contributeur sont 
+    Seuls les Projets dont l'utilisateur connecté est contributeur sont
     accessibles.
     """
 

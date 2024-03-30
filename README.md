@@ -70,6 +70,22 @@ Toute la documentation de l'API se trouve sur le swagger ainsi que tous les Endp
 
 ![image](./docs/images/API_SoftDesk_Support_Swagger.png)
 
+## Vérification du Code : 
+
+* Le code a été formaté et vérifié avec `black` et il respecte les recommandations pep8.
+
+* Utilisation de `isort` pour l'organisation des imports et de `pycln` pour le pep8.
+
+---
+#### Procédure pour générer un rapport flake8 en HTML
+
+
+Dans le terminal dans le dossier du projet , tapez la commande suivante pour afficher la politique d'exécution actuelle :
+```
+flake8 --format=html --htmldir=rapports_flake8 --exclude=.env-projet10-softdesk
+```
+Le rapport sera sauvegardé dans le dossier rapports_flake8, il suffira de lancer le fichier index.html
+
 ## Contribuer
 
 Si vous souhaitez contribuer à ce projet, veuillez suivre ces étapes :

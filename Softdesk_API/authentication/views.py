@@ -6,7 +6,8 @@ from rest_framework.response import Response
 
 from .models import CustomUser
 from .permissions import IsCreationOrIsAuthenticated
-from .serializers import CustomUserSerializer, CustomUserDetailSerializer,CustomUserPostSerializer
+from .serializers import (CustomUserDetailSerializer, CustomUserPostSerializer,
+                          CustomUserSerializer)
 
 
 class CustomUserViewSet(viewsets.ViewSet):

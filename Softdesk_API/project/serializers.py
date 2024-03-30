@@ -32,10 +32,7 @@ class ProjectPostSerializer(serializers.ModelSerializer):
     title = serializers.CharField(default="")
     description = serializers.CharField(default="")
     type = serializers.CharField(default="frontend")
-    contributors = serializers.ListField(
-        child=serializers.IntegerField(),
-        default=[]
-        )
+    contributors = serializers.ListField(child=serializers.IntegerField(), default=[])
 
     class Meta:
         """
@@ -43,7 +40,7 @@ class ProjectPostSerializer(serializers.ModelSerializer):
 
         Attributes:
             model (class): Classe du modèle à sérialiser (Project).
-            exclude (tuple): Liste des champs du modèle à exclure 
+            exclude (tuple): Liste des champs du modèle à exclure
             dans la sérialisation.
         """
 
