@@ -1,4 +1,6 @@
-from django.core.exceptions import ObjectDoesNotExist
+from django.contrib.auth.hashers import make_password
+from django.contrib.auth.password_validation import validate_password
+from django.core.exceptions import ObjectDoesNotExist, ValidationError
 from django.db import IntegrityError
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework import status, viewsets
@@ -68,12 +70,26 @@ class CustomUserViewSet(viewsets.ViewSet):
 
         try:
             if serializer.is_valid():
+                password = serializer.validated_data.get("password")
+                try:
+                    validate_password(password)
+                except ValidationError as e:
+                    return Response(
+                        {"error": f"Mot de passe invalide: {e} "},
+                        status=status.HTTP_400_BAD_REQUEST,
+                    )
+
+                # Hashage du mot de passe
+                serializer.validated_data["password"] = make_password(password)
                 serializer.save()
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
         except IntegrityError as e:
             return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
+        except Exception as e:
+            return Response({"error": e}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
     @swagger_auto_schema(
         request_body=CustomUserSerializer,
@@ -103,8 +119,20 @@ class CustomUserViewSet(viewsets.ViewSet):
             if request.user == user:
                 serializer = CustomUserSerializer(user, data=request.data, partial=True)
                 if serializer.is_valid():
+                    password = serializer.validated_data.get("password")
+                    try:
+                        validate_password(password)
+                    except ValidationError as e:
+                        return Response(
+                            {"error": f"Mot de passe invalide: {e} "},
+                            status=status.HTTP_400_BAD_REQUEST,
+                        )
+
+                    # Hashage du mot de passe
+                    serializer.validated_data["password"] = make_password(password)
                     serializer.save()
                     return Response(serializer.data, status=status.HTTP_200_OK)
+                
                 return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
             else:
                 return Response(
